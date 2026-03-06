@@ -15,6 +15,24 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+
+                    @can('ver usuarios')
+                        <flux:sidebar.item icon="users" :href="route('dashboard.users')" :current="request()->routeIs('dashboard.users')" wire:navigate>
+                            {{ __('Users') }}
+                        </flux:sidebar.item>
+                    @endcan
+
+                    @can('ver permisos')
+                        <flux:sidebar.item icon="shield-check" :href="route('permissions.index')" :current="request()->routeIs('permissions.*')" wire:navigate>
+                            {{ __('Permissions') }}
+                        </flux:sidebar.item>
+                    @endcan
+
+                    @can('ver roles')
+                        <flux:sidebar.item icon="shield-check" :href="route('roles.index')" :current="request()->routeIs('roles.*')" wire:navigate>
+                            {{ __('Roles') }}
+                        </flux:sidebar.item>
+                    @endcan
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
