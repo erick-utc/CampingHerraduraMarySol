@@ -11,7 +11,7 @@
             </div>
 
             <div>
-                <flux:heading size="sm">{{ __('Permissions') }}</flux:heading>
+                <flux:heading size="sm">{{ __('Permisos') }}</flux:heading>
                 <div class="grid gap-2 mt-2">
                     @foreach($permissions as $perm)
                         <label class="inline-flex items-center">

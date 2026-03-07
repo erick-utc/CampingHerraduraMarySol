@@ -72,6 +72,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('dashboard/roles/{role}', [\App\Http\Controllers\RoleController::class, 'destroy'])
         ->name('roles.destroy')
         ->middleware('can:borrar roles');
+
+    // hospedajes & productos maintenance
+    Route::resource('hospedajes', \App\Http\Controllers\HospedajeController::class);
+    Route::resource('productos', \App\Http\Controllers\ProductoController::class);
+    
+    // DEBUG: Temporary route to check permissions
+    Route::get('debug/permissions', function () {
+        $user = auth()->user();
+        return response()->json([
+            'user' => $user->email,
+            'roles' => $user->getRoleNames(),
+            'permissions' => $user->getPermissionNames(),
+            'can_editar_hospedajes' => $user->can('editar hospedajes'),
+            'can_borrar_hospedajes' => $user->can('borrar hospedajes'),
+            'can_editar_productos' => $user->can('editar productos'),
+            'can_borrar_productos' => $user->can('borrar productos'),
+        ]);
+    });
 });
 
 require __DIR__.'/settings.php';

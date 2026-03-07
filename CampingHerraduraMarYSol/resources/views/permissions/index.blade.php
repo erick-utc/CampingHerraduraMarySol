@@ -25,14 +25,14 @@
                             <td class="px-4 py-2 text-sm whitespace-nowrap">
                                 @can('editar permisos')
                                     <a href="{{ route('permissions.edit', $perm) }}">
-                                        <flux:button size="sm">{{ __('Edit') }}</flux:button>
+                                        <flux:button>{{ __('Editar') }}</flux:button>
                                     </a>
                                 @endcan
                                 @can('borrar permisos')
-                                    <form method="POST" action="{{ route('permissions.destroy', $perm) }}" class="inline-block" onsubmit="return confirm('{{ __('Are you sure?') }}');">
+                                    <form method="POST" action="{{ route('permissions.destroy', $perm) }}" class="inline-block" onsubmit="return confirm('{{ __('¿Está seguro?') }}');">
                                         @csrf
                                         @method('DELETE')
-                                        <flux:button size="sm" variant="danger">{{ __('Delete') }}</flux:button>
+                                        <flux:button variant="danger">{{ __('Eliminar') }}</flux:button>
                                     </form>
                                 @endcan
                             </td>

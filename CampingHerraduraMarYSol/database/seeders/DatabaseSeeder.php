@@ -16,19 +16,24 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RolesAndPermissionsSeeder::class,
+            PermissionsHospedajeProductoSeeder::class,
+            ProductosSeeder::class,
+            HospedajesSeeder::class,
         ]);
 
         // 2. Create the User
-    $user = User::factory()->create([
-        'name' => 'Test User',
-        'nombre'=> 'Administrador',
-        'primerApellido' => 'Herradura',
-        'segundoApellido' => 'Mary Sol',
-        'cedula' => '123456789',
-        'telefono' => '1234567890',
-        'email' => 'admin@admin.com',
-        'password' => bcrypt('password'), // Always hash passwords in seeders
-    ]);
+    $user = User::firstOrCreate(
+        ['cedula' => '123456789'],
+        [
+            'name' => 'Test User',
+            'nombre'=> 'Administrador',
+            'primerApellido' => 'Herradura',
+            'segundoApellido' => 'Mary Sol',
+            'telefono' => '1234567890',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password'),
+        ]
+    );
 
         $user->assignRole('administrador');
     }
