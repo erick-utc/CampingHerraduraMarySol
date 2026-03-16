@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RolesAndPermissionsSeeder;
+use Database\Seeders\FacturasSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,8 +18,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             PermissionsHospedajeProductoSeeder::class,
+            RolesPermissionsMatrixSeeder::class,
             ProductosSeeder::class,
             HospedajesSeeder::class,
+            UsersReservasSeeder::class,
+            ReservasSeeder::class,
+            FacturasSeeder::class,
+            AssignUserRolesSeeder::class,
         ]);
 
         // 2. Create the User

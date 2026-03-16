@@ -1,6 +1,14 @@
 <section class="w-full">
     <div class="p-6">
-        <flux:heading size="xl">{{ __('Usuarios') }}</flux:heading>
+        <div class="flex items-center justify-between gap-3">
+            <flux:heading size="xl">{{ __('Usuarios') }}</flux:heading>
+
+            @can('crear usuarios')
+                <flux:button as="a" :href="route('users.create')">
+                    {{ __('Nuevo usuario') }}
+                </flux:button>
+            @endcan
+        </div>
 
         <div class="mt-6 overflow-auto">
             <table class="w-full text-left divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -26,6 +34,10 @@
                                 @can('editar usuarios')
                                     <a href="{{ route('users.edit', $user) }}" class="inline-block">
                                         <flux:button size="sm">{{ __('Editar') }}</flux:button>
+                                    </a>
+
+                                    <a href="{{ route('users.roles.edit', $user) }}" class="inline-block">
+                                        <flux:button size="sm">{{ __('Roles') }}</flux:button>
                                     </a>
                                 @endcan
 

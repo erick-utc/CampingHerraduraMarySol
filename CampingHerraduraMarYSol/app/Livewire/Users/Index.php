@@ -168,7 +168,7 @@ class Index extends Component
 
             if ($column === 'email') {
                 // email must always be present and valid
-                $rules[$key] = 'required|email|unique:users,email'
+                $rules[$key] = 'required|email:rfc,dns|unique:users,email'
                     . ($this->selectedUser ? ',' . $this->selectedUser->id : '');
             } else {
                 // the rest of the columns are optional; null values are fine

@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
         ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\LogUserMovement::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

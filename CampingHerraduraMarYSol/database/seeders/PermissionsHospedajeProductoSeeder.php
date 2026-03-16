@@ -12,7 +12,7 @@ class PermissionsHospedajeProductoSeeder extends Seeder
         // ensure cache is clear so roles see new permissions immediately
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $entities = ['hospedajes', 'productos'];
+        $entities = ['hospedajes', 'productos', 'reservas'];
         $actions = ['ver', 'crear', 'editar', 'borrar'];
 
         $created = [];

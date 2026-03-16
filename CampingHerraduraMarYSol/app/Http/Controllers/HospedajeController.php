@@ -9,7 +9,7 @@ class HospedajeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:ver hospedajes')->only('index');
+        $this->middleware('permission:ver hospedajes')->only(['index', 'show']);
         $this->middleware('permission:crear hospedajes')->only(['create', 'store']);
         $this->middleware('permission:editar hospedajes')->only(['edit', 'update']);
         $this->middleware('permission:borrar hospedajes')->only('destroy');
@@ -24,6 +24,11 @@ class HospedajeController extends Controller
     public function create()
     {
         return view('hospedajes.create');
+    }
+
+    public function show(Hospedaje $hospedaje)
+    {
+        return view('hospedajes.show', compact('hospedaje'));
     }
 
     public function store(Request $request)

@@ -4,14 +4,18 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.header>
+        <flux:sidebar collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+            <flux:sidebar.header class="h-auto! min-h-0! flex-col items-stretch gap-2 pb-3">
                 <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
-            <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Mantenimiento')" class="grid">
+            <flux:sidebar.nav class="pt-2">
+                <div class="px-3 pb-2 pt-1 text-xs leading-none text-zinc-400">
+                    {{ __('Mantenimientos') }}
+                </div>
+
+                <flux:sidebar.group class="grid">
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
@@ -45,19 +49,56 @@
                             {{ __('Productos') }}
                         </flux:sidebar.item>
                     @endcan
+
+                    @can('ver reservas')
+                        <flux:sidebar.item icon="calendar-days" :href="route('reservas.index')" :current="request()->routeIs('reservas.*')" wire:navigate>
+                            {{ __('Reservas') }}
+                        </flux:sidebar.item>
+                    @endcan
+
+                    @can('ver facturas')
+                        <flux:sidebar.item icon="document-text" :href="route('facturas.index')" :current="request()->routeIs('facturas.*')" wire:navigate>
+                            {{ __('Facturas') }}
+                        </flux:sidebar.item>
+                    @endcan
+
+                    @if(auth()->user()->can('bitacora movimiento de usuario') || auth()->user()->can('ver bitacora'))
+                        <flux:sidebar.group :heading="__('Bitácoras')" class="grid">
+                            @can('bitacora movimiento de usuario')
+                                <flux:sidebar.item icon="arrow-path" :href="route('bitacoras.ingresos.index')" :current="request()->routeIs('bitacoras.ingresos.*')" wire:navigate>
+                                    {{ __('Ingresos') }}
+                                </flux:sidebar.item>
+                            @endcan
+
+                            @can('ver bitacora')
+                                <flux:sidebar.item icon="clipboard-document-list" :href="route('bitacoras.movimientos.index')" :current="request()->routeIs('bitacoras.movimientos.*')" wire:navigate>
+                                    {{ __('Movimientos') }}
+                                </flux:sidebar.item>
+                            @endcan
+                        </flux:sidebar.group>
+                    @endif
+
                 </flux:sidebar.group>
-            </flux:sidebar.nav>
 
-            <flux:spacer />
-
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
+                @can('ver reportes')
+                    <flux:sidebar.group :heading="__('Reportes')" class="grid">
+                        <flux:sidebar.item icon="chart-bar" :href="route('reportes.clientes')" :current="request()->routeIs('reportes.clientes')" wire:navigate>
+                            {{ __('Número de clientes') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="home-modern" :href="route('reportes.habitaciones')" :current="request()->routeIs('reportes.habitaciones')" wire:navigate>
+                            {{ __('Uso de habitaciones') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="map" :href="route('reportes.camping')" :current="request()->routeIs('reportes.camping')" wire:navigate>
+                            {{ __('Uso de camping') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="shopping-cart" :href="route('reportes.ventas-productos')" :current="request()->routeIs('reportes.ventas-productos')" wire:navigate>
+                            {{ __('Ventas por productos') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="truck" :href="route('reportes.parqueo')" :current="request()->routeIs('reportes.parqueo')" wire:navigate>
+                            {{ __('Uso de parqueo') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endcan
             </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />

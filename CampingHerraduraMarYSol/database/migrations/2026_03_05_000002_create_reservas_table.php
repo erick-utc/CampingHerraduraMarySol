@@ -16,9 +16,12 @@ return new class extends Migration
             $table->dateTime('fecha_entrada');
             $table->dateTime('fecha_salida');
             $table->integer('espacios_de_parqueo')->default(0);
-            $table->string('estado'); // creado/en espera/aprobado/cancelado
+            $table->enum('estado', ['creado', 'en espera', 'aprobado', 'cancelado'])->default('creado');
             $table->boolean('desayuno')->default(false);
             $table->timestamps();
+
+            $table->index(['estado']);
+            $table->index(['fecha_entrada', 'fecha_salida']);
         });
     }
 

@@ -4,44 +4,60 @@ Guía rápida para instalar dependencias y levantar el proyecto localmente.
 
 ## 1) Requisitos
 
-- macOS
-- Homebrew instalado
+- Windows 10/11
+- PowerShell o Command Prompt
 - MySQL (u otro motor compatible con Laravel)
 
-## 2) Instalar PHP
+## 2) Instalar PHP en Windows
 
-```bash
-brew update
-brew install php
+### Opción recomendada: usar XAMPP (más simple)
+
+1. Descarga e instala XAMPP desde https://www.apachefriends.org
+2. Abre el panel de XAMPP y enciende al menos `Apache` y `MySQL`.
+3. Verifica PHP en terminal:
+
+```powershell
 php -v
 ```
 
-> Si necesitas una versión específica (por ejemplo 8.3):
+Si `php` no se reconoce, agrega al `PATH` la carpeta de PHP de XAMPP, normalmente:
 
-```bash
-brew install php@8.3
-brew link --overwrite --force php@8.3
+`C:\xampp\php`
+
+### Opción alternativa: PHP manual
+
+1. Descarga PHP para Windows desde https://windows.php.net/download
+2. Extrae en una carpeta, por ejemplo `C:\php`.
+3. Agrega `C:\php` al `PATH` del sistema.
+4. Cierra y abre de nuevo la terminal, luego valida:
+
+```powershell
 php -v
 ```
 
-## 3) Instalar Composer
+## 3) Instalar Composer en Windows
 
-```bash
-brew install composer
+1. Descarga el instalador desde https://getcomposer.org/Composer-Setup.exe
+2. Durante la instalación, selecciona la ruta de `php.exe` (XAMPP o manual).
+3. Verifica instalación:
+
+```powershell
 composer --version
 ```
 
 ## 4) Instalar Laravel (global)
 
-```bash
+```powershell
 composer global require laravel/installer
 ```
 
-Agrega Composer global al `PATH` (si no lo tienes):
+Agrega Composer global al `PATH` (si no lo detecta automáticamente):
 
-```bash
-echo 'export PATH="$HOME/.composer/vendor/bin:$HOME/.config/composer/vendor/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
+- `C:\Users\TU_USUARIO\AppData\Roaming\Composer\vendor\bin`
+
+Después, abre una nueva terminal y valida:
+
+```powershell
 laravel --version
 ```
 
@@ -49,10 +65,16 @@ laravel --version
 
 Ubícate en la raíz del proyecto y ejecuta:
 
-```bash
+```powershell
 composer install
-cp .env.example .env
+copy .env.example .env
 php artisan key:generate
+```
+
+> Si `copy` no funciona en PowerShell, usa:
+
+```powershell
+Copy-Item .env.example .env
 ```
 
 ## 6) Configurar base de datos
@@ -74,20 +96,20 @@ Crea la base de datos en MySQL antes de migrar.
 
 ### Opción recomendada (limpia y recrea todo)
 
-```bash
+```powershell
 php artisan migrate:fresh --seed
 ```
 
 ### Opción normal (solo migrar + seed)
 
-```bash
+```powershell
 php artisan migrate
 php artisan db:seed
 ```
 
 ## 8) Levantar el proyecto
 
-```bash
+```powershell
 php artisan serve
 ```
 
@@ -99,7 +121,7 @@ Aplicación disponible en:
 
 Limpiar cachés:
 
-```bash
+```powershell
 php artisan optimize:clear
 php artisan view:clear
 php artisan permission:cache-reset
@@ -109,7 +131,7 @@ php artisan permission:cache-reset
 
 Si ocurre un error de permisos/roles después de sembrar, ejecuta nuevamente:
 
-```bash
+```powershell
 php artisan db:seed --class=RolesAndPermissionsSeeder
 php artisan db:seed --class=PermissionsHospedajeProductoSeeder
 php artisan permission:cache-reset

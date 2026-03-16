@@ -21,9 +21,7 @@
                 <input type="number" step="0.01" name="precio" class="w-full rounded-lg border px-3 py-2" value="{{ $producto->precio }}" required>
             </div>
             <div class="flex gap-2 pt-4">
-                @can('editar productos')
-                <button class="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700">{{ __('Actualizar') }}</button>
-                @endcan
+                <button type="submit" class="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700">{{ __('Actualizar') }}</button>
                 <a href="{{ route('productos.index') }}" class="rounded-lg bg-neutral-600 px-4 py-2 text-white hover:bg-neutral-700">{{ __('Cancelar') }}</a>
             </div>
         </form>

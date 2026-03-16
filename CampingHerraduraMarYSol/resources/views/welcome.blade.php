@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ __('Welcome') }} - {{ config('app.name', 'Laravel') }}</title>
+        <title>{{ __('Bienvenido') }} - {{ __('Camping Herradura Mar y Sol') }}</title>
 
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -23,7 +23,13 @@
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
             @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
+                <nav class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('logo.svg') }}" alt="{{ __('Logo Camping Herradura Mar y Sol') }}" class="h-10 w-10 object-contain">
+                        <span class="text-sm font-semibold">{{ __('Camping Herradura Mar y Sol') }}</span>
+                    </div>
+
+                    <div class="flex items-center gap-4">
                     @auth
                         <a
                             href="{{ route('dashboard') }}"
@@ -47,79 +53,69 @@
                             </a>
                         @endif
                     @endauth
+                    </div>
                 </nav>
             @endif
         </header>
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Laravel has an incredibly rich ecosystem. <br>We suggest starting with the following.</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Read the
-                                <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ms-1">
-                                    <span>Documentation</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:bottom-1/2 before:top-0 before:start-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Watch video tutorials at
-                                <a href="https://laracasts.com" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ms-1">
-                                    <span>Laracasts</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
+                    <div class="mb-5 flex items-center gap-3">
+                        <img src="{{ asset('logo.svg') }}" alt="{{ __('Logo Camping Herradura Mar y Sol') }}" class="h-16 w-16 object-contain">
+                        <div>
+                            <h1 class="text-lg font-semibold leading-tight">{{ __('Camping Herradura Mar y Sol') }}</h1>
+                            <p class="mt-1 text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ __('Sistema de gestión para hospedajes, reservas, facturación, bitácoras y reportes.') }}</p>
+                        </div>
+                    </div>
+
+                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
+                        {{ __('Bienvenido al panel principal del proyecto.') }}
+                    </p>
+
+                    <ul class="flex flex-col gap-2 text-sm leading-normal text-[#1b1b18] dark:text-[#EDEDEC]">
+                        <li>{{ __('• Gestión de hospedajes, productos y reservas') }}</li>
+                        <li>{{ __('• Control de facturas y movimientos de usuarios') }}</li>
+                        <li>{{ __('• Reportes dinámicos con filtros por período') }}</li>
                     </ul>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
-                                Deploy now
-                            </a>
-                        </li>
-                    </ul>
+
+                    <div class="mt-6">
+                        <h2 class="mb-3 text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">{{ __('Hospedajes disponibles (Habitaciones y Camping)') }}</h2>
+
+                        <div class="grid gap-4 md:grid-cols-3">
+                            @forelse(($habitaciones ?? collect()) as $habitacion)
+                                @php
+                                    $reservaUrl = auth()->check()
+                                        ? route('reservas.create', ['hospedaje_id' => $habitacion->id])
+                                        : route('login');
+                                @endphp
+
+                                <a href="{{ $reservaUrl }}" class="block rounded-lg border border-[#e3e3e0] bg-[#FDFDFC] p-4 transition hover:border-[#19140035] dark:border-[#3E3E3A] dark:bg-[#161615] dark:hover:border-[#62605b]" style="padding: 1rem;">
+                                    <div class="mb-2 flex items-center justify-between">
+                                        <p class="text-sm font-semibold">{{ __('Hospedaje') }} #{{ $habitacion->numeros }}</p>
+                                        <span class="rounded-sm border border-[#19140035] px-2 py-0.5 text-xs dark:border-[#3E3E3A]">
+                                            {{ ucfirst($habitacion->tipo) }}
+                                        </span>
+                                    </div>
+
+                                    <ul class="mb-3 space-y-1 text-xs text-[#706f6c] dark:text-[#A1A09A]">
+                                        <li>{{ $habitacion->aire_acondicionado ? __('✓ Aire acondicionado') : __('✗ Sin aire acondicionado') }}</li>
+                                        <li>{{ $habitacion->familiar ? __('✓ Apta para familia') : __('✗ No familiar') }}</li>
+                                        <li>{{ $habitacion->parejas ? __('✓ Ideal para parejas') : __('✗ No ideal para parejas') }}</li>
+                                    </ul>
+
+                                    <div class="mt-4">
+                                        <span class="inline-block rounded-sm border border-black bg-[#1b1b18] px-3 py-1.5 text-xs text-white dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A]">
+                                            {{ __('Reservar') }}
+                                        </span>
+                                    </div>
+                                </a>
+                            @empty
+                                <p class="text-xs text-[#706f6c] dark:text-[#A1A09A]">{{ __('No hay hospedajes registrados por el momento.') }}</p>
+                            @endforelse
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
+                <div class="hidden">
                     {{-- Laravel Logo --}}
                     <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
