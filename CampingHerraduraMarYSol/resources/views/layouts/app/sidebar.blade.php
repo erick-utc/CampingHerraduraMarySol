@@ -20,13 +20,7 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="information-circle" :href="route('about')" :current="request()->routeIs('about')" wire:navigate>
-                        {{ __('Acerca de') }}
-                    </flux:sidebar.item>
-
-                    <flux:sidebar.item icon="question-mark-circle" :href="route('help')" :current="request()->routeIs('help')" wire:navigate>
-                        {{ __('Ayuda') }}
-                    </flux:sidebar.item>
+                   
 
                     @can('ver usuarios')
                         <flux:sidebar.item icon="users" :href="route('dashboard.users')" :current="request()->routeIs('dashboard.users')" wire:navigate>
@@ -69,6 +63,14 @@
                             {{ __('Facturas') }}
                         </flux:sidebar.item>
                     @endcan
+
+                     <flux:sidebar.item icon="information-circle" :href="route('about')" :current="request()->routeIs('about')" wire:navigate>
+                        {{ __('Acerca de') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="question-mark-circle" :href="route('help')" :current="request()->routeIs('help')" wire:navigate>
+                        {{ __('Ayuda') }}
+                    </flux:sidebar.item>
 
                     @if(auth()->user()->can('bitacora movimiento de usuario') || auth()->user()->can('ver bitacora'))
                         <flux:sidebar.group :heading="__('Bitácoras')" class="grid">
