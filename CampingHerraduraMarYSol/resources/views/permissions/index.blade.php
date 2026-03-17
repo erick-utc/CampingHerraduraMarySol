@@ -29,10 +29,10 @@
                                     </a>
                                 @endcan
                                 @can('borrar permisos')
-                                    <form method="POST" action="{{ route('permissions.destroy', $perm) }}" class="inline-block" onsubmit="return confirm('{{ __('¿Está seguro?') }}');">
+                                    <form method="POST" action="{{ route('permissions.destroy', $perm) }}" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <flux:button variant="danger">{{ __('Eliminar') }}</flux:button>
+                                        <flux:button type="submit" variant="danger">{{ __('Eliminar') }}</flux:button>
                                     </form>
                                 @endcan
                             </td>

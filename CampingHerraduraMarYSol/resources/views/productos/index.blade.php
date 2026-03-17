@@ -39,10 +39,10 @@
                                     </a>
                                 @endcan
                                 @can('borrar productos')
-                                    <form method="POST" action="{{ route('productos.destroy', $producto) }}" class="inline-block" onsubmit="return confirm('{{ __('¿Está seguro?') }}');">
+                                    <form method="POST" action="{{ route('productos.destroy', $producto) }}" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <flux:button variant="danger">{{ __('Eliminar') }}</flux:button>
+                                        <flux:button type="submit" variant="danger">{{ __('Eliminar') }}</flux:button>
                                     </form>
                                 @endcan
                             </td>

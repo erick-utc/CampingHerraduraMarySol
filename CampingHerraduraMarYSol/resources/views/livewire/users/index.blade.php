@@ -46,11 +46,10 @@
                                         method="POST"
                                         action="{{ route('users.destroy', $user) }}"
                                         class="inline-block"
-                                        onsubmit="return confirm('{{ __('¿Está seguro?') }}');"
                                     >
                                         @csrf
                                         @method('DELETE')
-                                        <flux:button size="sm" variant="danger">{{ __('Eliminar') }}</flux:button>
+                                        <flux:button type="submit" size="sm" variant="danger">{{ __('Eliminar') }}</flux:button>
                                     </form>
                                 @endcan
                             </td>
