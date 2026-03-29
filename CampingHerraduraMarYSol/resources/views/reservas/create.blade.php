@@ -72,19 +72,14 @@
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div>
-                    <label class="block text-sm font-medium">{{ __('Precio') }}</label>
-                    <input type="number" step="0.01" min="0" name="precio" class="w-full rounded-lg border px-3 py-2" value="{{ old('precio') }}" required>
-                    @error('precio')
-                        <p class="text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div>
                     <label class="block text-sm font-medium">{{ __('Espacios de Parqueo') }}</label>
                     <input type="number" min="0" name="espacios_de_parqueo" class="w-full rounded-lg border px-3 py-2" value="{{ old('espacios_de_parqueo', 0) }}">
                     @error('espacios_de_parqueo')
                         <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+                
+                
                 <div>
                     <label class="block text-sm font-medium">{{ __('Estado') }}</label>
                     <select name="estado" class="w-full rounded-lg border px-3 py-2" required>
@@ -97,6 +92,15 @@
                         <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+                @can('editar reservas')
+                <div>
+                    <label class="block text-sm font-medium">{{ __('Precio') }}</label>
+                    <input type="number" step="0.01" min="0" name="precio" class="w-full rounded-lg border px-3 py-2" value="{{ old('precio') }}">
+                    @error('precio')
+                        <p class="text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                @endcan
             </div>
 
             <div>

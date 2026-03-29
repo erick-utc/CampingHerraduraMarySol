@@ -39,7 +39,11 @@
             <ul class="list-disc pl-6 space-y-2">
                 @forelse(($factura->ventas ?? []) as $item)
                     <li>
-                        <strong>{{ $item['marca'] ?? '' }} {{ $item['producto'] ?? '' }} {{ $item['tamano'] ?? '' }}</strong>
+                        @if(($item['tipo'] ?? null) === 'reserva')
+                            <strong>{{ __('Reserva') }}: {{ $item['producto'] ?? __('Hospedaje') }}</strong>
+                        @else
+                            <strong>{{ $item['marca'] ?? '' }} {{ $item['producto'] ?? '' }} {{ $item['tamano'] ?? '' }}</strong>
+                        @endif
                         - {{ __('Cantidad:') }} {{ $item['cantidad'] ?? 0 }}
                         - {{ __('Precio unitario:') }} ${{ number_format((float) ($item['precio_unitario'] ?? 0), 2) }}
                         - {{ __('Subtotal:') }} ${{ number_format((float) ($item['subtotal_linea'] ?? 0), 2) }}

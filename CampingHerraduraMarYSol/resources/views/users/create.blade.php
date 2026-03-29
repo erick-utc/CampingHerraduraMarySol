@@ -4,20 +4,6 @@
 
         <form method="POST" action="{{ route('users.store') }}" class="mt-6 space-y-6">
             @csrf
-
-            <div>
-                <flux:input
-                    name="name"
-                    type="text"
-                    value="{{ old('name') }}"
-                    :label="__('Nombre completo')"
-                    required
-                />
-                @error('name')
-                    <flux:text class="text-red-600 text-sm">{{ $message }}</flux:text>
-                @enderror
-            </div>
-
             <div>
                 <flux:input
                     name="nombre"

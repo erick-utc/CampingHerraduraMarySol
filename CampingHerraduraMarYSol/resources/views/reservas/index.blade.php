@@ -1,4 +1,8 @@
 <x-layouts::app :title="__('Reservas')">
+    @php
+        $habitaciones = $habitaciones ?? collect();
+    @endphp
+
     <div class="p-6">
         <div class="flex items-center justify-between">
             <flux:heading size="xl">{{ __('Reservas') }}</flux:heading>
@@ -77,6 +81,41 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="mb-3 text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{ __('Hospedajes disponibles (Habitaciones y Camping)') }}</h2>
+
+            <div class="grid gap-4 md:grid-cols-3">
+                @forelse($habitaciones as $habitacion)
+                    @php
+                        $reservaUrl = route('reservas.create', ['hospedaje_id' => $habitacion->id]);
+                    @endphp
+
+                    <a href="{{ $reservaUrl }}" class="block rounded-lg border border-[#e3e3e0] bg-[#FDFDFC] p-4 transition hover:border-[#19140035] dark:border-[#3E3E3A] dark:bg-[#161615] dark:hover:border-[#62605b]" style="padding: 1rem;">
+                        <div class="mb-2 flex items-center justify-between">
+                            <p class="text-sm font-semibold">{{ __('Hospedaje') }} #{{ $habitacion->numeros }}</p>
+                            <span class="rounded-sm border border-[#19140035] px-2 py-0.5 text-xs dark:border-[#3E3E3A]">
+                                {{ ucfirst($habitacion->tipo) }}
+                            </span>
+                        </div>
+
+                        <ul class="mb-3 space-y-1 text-xs text-[#706f6c] dark:text-[#A1A09A]">
+                            <li>{{ $habitacion->aire_acondicionado ? __('✓ Aire acondicionado') : __('✗ Sin aire acondicionado') }}</li>
+                            <li>{{ $habitacion->familiar ? __('✓ Apta para familia') : __('✗ No familiar') }}</li>
+                            <li>{{ $habitacion->parejas ? __('✓ Ideal para parejas') : __('✗ No ideal para parejas') }}</li>
+                        </ul>
+
+                        <div class="mt-4">
+                            <span class="inline-block rounded-sm border border-black bg-[#1b1b18] px-3 py-1.5 text-xs text-white dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A]">
+                                {{ __('Reservar') }}
+                            </span>
+                        </div>
+                    </a>
+                @empty
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">{{ __('No hay hospedajes registrados por el momento.') }}</p>
+                @endforelse
+            </div>
         </div>
     </div>
 </x-layouts::app>

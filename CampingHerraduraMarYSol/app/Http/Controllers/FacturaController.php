@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Factura;
 use App\Models\Producto;
 use App\Models\Reserva;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class FacturaController extends Controller
 {
@@ -20,9 +24,18 @@ class FacturaController extends Controller
 
     public function index()
     {
-        $facturas = Factura::with(['reserva.usuario', 'reserva.hospedaje'])
-            ->orderByDesc('id')
-            ->get();
+        $user = Auth::user();
+
+        $query = Factura::with(['reserva.usuario', 'reserva.hospedaje'])
+            ->orderByDesc('id');
+
+        if ($user instanceof User && $user->hasRole('cliente')) {
+            $query->whereHas('reserva', function ($reservaQuery) use ($user): void {
+                $reservaQuery->where('usuario_id', $user->id);
+            });
+        }
+
+        $facturas = $query->get();
 
         return view('facturas.index', compact('facturas'));
     }
@@ -51,7 +64,11 @@ class FacturaController extends Controller
             'cantidades.*' => ['nullable', 'integer', 'min:1'],
         ]);
 
-        [$ventas, $subtotal] = $this->buildVentasAndSubtotal($data['productos'], $data['cantidades']);
+        $reserva = Reserva::with('hospedaje')->findOrFail($data['reserva_id']);
+
+        $this->validateFacturaDateAgainstReserva($data['fecha_factura'], $reserva);
+
+        [$ventas, $subtotal] = $this->buildVentasAndSubtotal($data['productos'], $data['cantidades'], $reserva);
 
         $impuestoMonto = round($subtotal * ((int) $data['porcentaje_impuesto'] / 100), 2);
         $total = round($subtotal + $impuestoMonto, 2);
@@ -64,11 +81,7 @@ class FacturaController extends Controller
             'impuesto' => $impuestoMonto,
             'total' => $total,
             'ventas' => $ventas,
-            'reporte_productos' => array_map(fn ($item) => [
-                'producto' => $item['marca'] . ' ' . $item['producto'] . ' ' . $item['tamano'],
-                'cantidad' => $item['cantidad'],
-                'subtotal' => $item['subtotal_linea'],
-            ], $ventas),
+            'reporte_productos' => $this->buildReporteProductos($ventas),
         ]);
 
         return redirect()->route('facturas.show', $factura)
@@ -97,8 +110,15 @@ class FacturaController extends Controller
         $productos = Producto::orderBy('marca')->orderBy('producto')->get();
 
         $ventas = $factura->ventas ?? [];
-        $selectedProductos = collect($ventas)->pluck('id')->all();
-        $cantidades = collect($ventas)->mapWithKeys(fn ($item) => [$item['id'] => $item['cantidad']])->all();
+        $selectedProductos = collect($ventas)
+            ->filter(fn ($item) => isset($item['id']) && $item['id'] !== null)
+            ->pluck('id')
+            ->all();
+
+        $cantidades = collect($ventas)
+            ->filter(fn ($item) => isset($item['id']) && $item['id'] !== null)
+            ->mapWithKeys(fn ($item) => [$item['id'] => $item['cantidad']])
+            ->all();
 
         $porcentajeImpuesto = $factura->subtotal > 0
             ? (int) round(((float) $factura->impuesto / (float) $factura->subtotal) * 100)
@@ -130,7 +150,11 @@ class FacturaController extends Controller
             'cantidades.*' => ['nullable', 'integer', 'min:1'],
         ]);
 
-        [$ventas, $subtotal] = $this->buildVentasAndSubtotal($data['productos'], $data['cantidades']);
+        $reserva = Reserva::with('hospedaje')->findOrFail($data['reserva_id']);
+
+        $this->validateFacturaDateAgainstReserva($data['fecha_factura'], $reserva);
+
+        [$ventas, $subtotal] = $this->buildVentasAndSubtotal($data['productos'], $data['cantidades'], $reserva);
 
         $impuestoMonto = round($subtotal * ((int) $data['porcentaje_impuesto'] / 100), 2);
         $total = round($subtotal + $impuestoMonto, 2);
@@ -142,11 +166,7 @@ class FacturaController extends Controller
             'impuesto' => $impuestoMonto,
             'total' => $total,
             'ventas' => $ventas,
-            'reporte_productos' => array_map(fn ($item) => [
-                'producto' => $item['marca'] . ' ' . $item['producto'] . ' ' . $item['tamano'],
-                'cantidad' => $item['cantidad'],
-                'subtotal' => $item['subtotal_linea'],
-            ], $ventas),
+            'reporte_productos' => $this->buildReporteProductos($ventas),
         ]);
 
         return redirect()->route('facturas.show', $factura)
@@ -161,12 +181,26 @@ class FacturaController extends Controller
             ->with('success', 'Factura eliminada correctamente.');
     }
 
-    private function buildVentasAndSubtotal(array $productoIds, array $cantidades): array
+    private function buildVentasAndSubtotal(array $productoIds, array $cantidades, Reserva $reserva): array
     {
         $productos = Producto::whereIn('id', $productoIds)->get()->keyBy('id');
 
         $ventas = [];
         $subtotal = 0;
+
+        $precioReserva = round((float) ($reserva->precio ?? 0), 2);
+        $subtotal += $precioReserva;
+
+        $ventas[] = [
+            'tipo' => 'reserva',
+            'id' => null,
+            'marca' => __('Reserva'),
+            'producto' => __('Hospedaje #') . ($reserva->hospedaje?->numeros ?? $reserva->hospedaje_id),
+            'tamano' => '',
+            'precio_unitario' => $precioReserva,
+            'cantidad' => 1,
+            'subtotal_linea' => $precioReserva,
+        ];
 
         foreach ($productoIds as $productoId) {
             $producto = $productos->get($productoId);
@@ -193,6 +227,37 @@ class FacturaController extends Controller
         }
 
         return [$ventas, round($subtotal, 2)];
+    }
+
+    private function buildReporteProductos(array $ventas): array
+    {
+        return array_map(function ($item) {
+            $descripcion = trim(($item['marca'] ?? '') . ' ' . ($item['producto'] ?? '') . ' ' . ($item['tamano'] ?? ''));
+
+            return [
+                'producto' => $descripcion !== '' ? $descripcion : __('Detalle'),
+                'cantidad' => $item['cantidad'] ?? 1,
+                'subtotal' => $item['subtotal_linea'] ?? 0,
+            ];
+        }, $ventas);
+    }
+
+    private function validateFacturaDateAgainstReserva(string $fechaFactura, Reserva $reserva): void
+    {
+        $fechaEntrada = $reserva->fecha_entrada;
+
+        if (! $fechaEntrada) {
+            return;
+        }
+
+        $fechaFacturaCarbon = Carbon::parse($fechaFactura);
+        $inicioDiaReserva = $fechaEntrada->copy()->startOfDay();
+
+        if ($fechaFacturaCarbon->lt($inicioDiaReserva)) {
+            throw ValidationException::withMessages([
+                'fecha_factura' => __('La fecha de factura debe ser el mismo día de la reserva o posterior.'),
+            ]);
+        }
     }
 
     private function generateNumeroFactura(): string

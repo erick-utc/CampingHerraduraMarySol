@@ -7,10 +7,10 @@
 
             <div>
                 <label class="block text-sm font-medium">{{ __('Reserva') }}</label>
-                <select name="reserva_id" class="w-full rounded-lg border px-3 py-2" required>
+                <select name="reserva_id" id="reserva_id" class="w-full rounded-lg border px-3 py-2" required>
                     <option value="">{{ __('Seleccione una reserva') }}</option>
                     @foreach($reservas as $reserva)
-                        <option value="{{ $reserva->id }}" @selected(old('reserva_id') == $reserva->id)>
+                        <option value="{{ $reserva->id }}" data-precio-reserva="{{ (float) $reserva->precio }}" @selected(old('reserva_id') == $reserva->id)>
                             #{{ $reserva->id }} - {{ $reserva->usuario?->cedula }} - {{ $reserva->usuario?->nombre }} {{ $reserva->usuario?->primerApellido }} - {{ $reserva->hospedaje?->numeros }}
                         </option>
                     @endforeach
@@ -57,6 +57,8 @@
             </div>
 
             <div class="rounded-lg border p-4 text-sm">
+                <div class="flex justify-between"><span>{{ __('Reserva') }}</span><strong id="reserva-preview">$0.00</strong></div>
+                <div class="flex justify-between"><span>{{ __('Productos') }}</span><strong id="productos-preview">$0.00</strong></div>
                 <div class="flex justify-between"><span>{{ __('Subtotal') }}</span><strong id="subtotal-preview">$0.00</strong></div>
                 <div class="flex justify-between"><span>{{ __('Impuesto') }}</span><strong id="impuesto-preview">$0.00</strong></div>
                 <div class="flex justify-between text-base"><span>{{ __('Total') }}</span><strong id="total-preview">$0.00</strong></div>
@@ -73,7 +75,9 @@
         function recalculateFacturaTotals() {
             const checks = document.querySelectorAll('.producto-check');
             const impuestoSelect = document.getElementById('porcentaje_impuesto');
-            let subtotal = 0;
+            const reservaSelect = document.getElementById('reserva_id');
+
+            let subtotalProductos = 0;
 
             checks.forEach((check) => {
                 if (!check.checked) return;
@@ -82,19 +86,25 @@
                 const cantidadInput = document.querySelector('.producto-cantidad[data-producto-id="' + check.value + '"]');
                 const cantidad = Number(cantidadInput?.value || 1);
 
-                subtotal += (precio * (cantidad > 0 ? cantidad : 1));
+                subtotalProductos += (precio * (cantidad > 0 ? cantidad : 1));
             });
+
+            const selectedOption = reservaSelect?.options[reservaSelect.selectedIndex];
+            const subtotalReserva = Number(selectedOption?.dataset.precioReserva || 0);
+            const subtotal = subtotalReserva + subtotalProductos;
 
             const porcentaje = Number(impuestoSelect?.value || 0);
             const impuesto = subtotal * (porcentaje / 100);
             const total = subtotal + impuesto;
 
+            document.getElementById('reserva-preview').textContent = '$' + subtotalReserva.toFixed(2);
+            document.getElementById('productos-preview').textContent = '$' + subtotalProductos.toFixed(2);
             document.getElementById('subtotal-preview').textContent = '$' + subtotal.toFixed(2);
             document.getElementById('impuesto-preview').textContent = '$' + impuesto.toFixed(2);
             document.getElementById('total-preview').textContent = '$' + total.toFixed(2);
         }
 
-        document.querySelectorAll('.producto-check, .producto-cantidad, #porcentaje_impuesto').forEach((element) => {
+        document.querySelectorAll('.producto-check, .producto-cantidad, #porcentaje_impuesto, #reserva_id').forEach((element) => {
             element.addEventListener('input', recalculateFacturaTotals);
             element.addEventListener('change', recalculateFacturaTotals);
         });

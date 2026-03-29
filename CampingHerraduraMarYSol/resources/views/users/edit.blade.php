@@ -7,6 +7,7 @@
             @method('PUT')
 
             @foreach($columns as $column)
+                @if ($column !== 'name')
                 <div>
                     <flux:input
                         name="{{ $column }}"
@@ -18,6 +19,7 @@
                         <flux:text class="text-red-600 text-sm">{{ $message }}</flux:text>
                     @enderror
                 </div>
+                @endif
             @endforeach
 
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">

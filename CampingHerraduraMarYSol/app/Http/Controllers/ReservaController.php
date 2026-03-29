@@ -23,9 +23,22 @@ class ReservaController extends Controller
 
     public function index()
     {
-        $reservas = Reserva::with(['usuario', 'hospedaje'])->orderByDesc('id')->get();
+        $user = \Illuminate\Support\Facades\Auth::user();
 
-        return view('reservas.index', compact('reservas'));
+        $query = Reserva::with(['usuario', 'hospedaje'])->orderByDesc('id');
+
+        if ($user instanceof User && $user->hasRole('cliente')) {
+            $query->where('usuario_id', $user->id);
+        }
+
+        $reservas = $query->get();
+        $habitaciones = Hospedaje::query()
+            ->whereIn('tipo', ['habitacion', 'camping'])
+            ->orderBy('tipo')
+            ->orderBy('numeros')
+            ->get();
+
+        return view('reservas.index', compact('reservas', 'habitaciones'));
     }
 
     public function create(Request $request)
@@ -42,7 +55,7 @@ class ReservaController extends Controller
         $data = $request->validate([
             'usuario_id' => ['required', 'exists:users,id'],
             'hospedaje_id' => ['required', 'exists:hospedajes,id'],
-            'precio' => ['required', 'numeric', 'min:0'],
+            'precio' => ['nullable', 'numeric', 'min:0'],
             'fecha_entrada' => ['required', 'date'],
             'fecha_salida' => ['required', 'date', 'after:fecha_entrada'],
             'espacios_de_parqueo' => ['nullable', 'integer', 'min:0'],
@@ -51,6 +64,7 @@ class ReservaController extends Controller
         ]);
 
         $data['espacios_de_parqueo'] = $data['espacios_de_parqueo'] ?? 0;
+        $data['precio'] = $data['precio'] ?? 0;
         $data['desayuno'] = $request->boolean('desayuno');
 
         $reserva = Reserva::create($data);
