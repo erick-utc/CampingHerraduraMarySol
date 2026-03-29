@@ -24,6 +24,7 @@
             </div>
         </div>
 
+        @if(Auth::user()->hasRole('administrador'))
         <div class="rounded-xl border border-zinc-200 p-4 dark:border-zinc-700">
             <h3 class="text-sm font-semibold text-zinc-600 dark:text-zinc-300">{{ __('Stack tecnico') }}</h3>
             <div class="mt-3 grid gap-2 text-sm">
@@ -45,7 +46,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
         <div class="rounded-xl border border-zinc-200 p-4 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-300">
             <p class="font-semibold text-zinc-700 dark:text-zinc-200">{{ __('Proposito de la aplicacion') }}</p>
             <p class="mt-2">
