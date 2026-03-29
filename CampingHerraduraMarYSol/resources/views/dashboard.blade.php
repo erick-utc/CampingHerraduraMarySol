@@ -10,6 +10,14 @@
     @endphp
 
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-6">
+        <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <img
+                src="{{ asset('images/Dashboard.webp') }}"
+                alt="{{ __('Imagen principal del dashboard') }}"
+                class="aspect-video w-full object-cover object-center"
+            >
+        </div>
+
         @if($esAdministrador ?? false)
             <flux:heading size="xl">{{ __('Resumen de Reservaciones') }}</flux:heading>
 

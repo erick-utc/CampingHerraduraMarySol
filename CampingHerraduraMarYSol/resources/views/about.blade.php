@@ -2,6 +2,14 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-6">
         <flux:heading size="xl">{{ __('Acerca de la aplicacion') }}</flux:heading>
 
+        <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <img
+                src="{{ asset('images/acerca1.webp') }}"
+                alt="{{ __('Imagen de acerca de') }}"
+                class="aspect-video w-full object-cover object-center"
+            >
+        </div>
+
         <div class="rounded-xl border border-zinc-200 p-4 dark:border-zinc-700">
             <h3 class="text-sm font-semibold text-zinc-600 dark:text-zinc-300">{{ __('Informacion general') }}</h3>
             <div class="mt-3 grid gap-2 text-sm">

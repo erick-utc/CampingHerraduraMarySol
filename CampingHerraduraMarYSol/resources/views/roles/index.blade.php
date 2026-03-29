@@ -10,6 +10,14 @@
             @endcan
         </div>
 
+        <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <img
+                src="{{ asset('images/roles.png') }}"
+                alt="{{ __('Ilustración de roles') }}"
+                class="aspect-video w-full object-cover object-center"
+            >
+        </div>
+
         <div class="mt-6 overflow-auto">
             <table class="w-full text-left divide-y divide-zinc-200 dark:divide-zinc-700">
                 <thead class="bg-zinc-50 dark:bg-zinc-800">

@@ -14,6 +14,14 @@
             @endcan
         </div>
 
+        <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <img
+                src="{{ asset('images/camping2.avif') }}"
+                alt="{{ __('Imagen de reservas en camping') }}"
+                class="aspect-video w-full object-cover object-center"
+            >
+        </div>
+
         @if(session('success'))
             <div class="rounded-lg bg-green-100 p-4 text-green-800">{{ session('success') }}</div>
         @endif

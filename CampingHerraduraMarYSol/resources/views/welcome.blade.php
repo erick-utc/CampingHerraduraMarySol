@@ -72,6 +72,14 @@
                         {{ __('Bienvenido al panel principal del proyecto.') }}
                     </p>
 
+                    <div class="mb-5 overflow-hidden rounded-lg border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                        <img
+                            src="{{ asset('images/Herradura.jpg') }}"
+                            alt="{{ __('Vista de Herradura') }}"
+                            class="aspect-video w-full object-cover object-center"
+                        >
+                    </div>
+
                     <ul class="flex flex-col gap-2 text-sm leading-normal text-[#1b1b18] dark:text-[#EDEDEC]">
                         <li>{{ __('• Gestión de hospedajes, productos y reservas') }}</li>
                         <li>{{ __('• Control de facturas y movimientos de usuarios') }}</li>

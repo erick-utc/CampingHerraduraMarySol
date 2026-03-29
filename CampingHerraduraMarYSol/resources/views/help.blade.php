@@ -2,6 +2,14 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-6">
         <flux:heading size="xl">{{ __('Centro de ayuda') }}</flux:heading>
 
+        <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <img
+                src="{{ asset('images/acerca2.jpg') }}"
+                alt="{{ __('Imagen de ayuda') }}"
+                class="aspect-video w-full object-cover object-center"
+            >
+        </div>
+
         <div class="rounded-xl border border-zinc-200 p-5 dark:border-zinc-700">
             <h3 class="text-sm font-semibold text-zinc-700 dark:text-zinc-200">{{ __('Manual de usuario (PDF)') }}</h3>
             <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
