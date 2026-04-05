@@ -14,7 +14,7 @@
             <img
                 src="{{ asset('images/camping3.jpg') }}"
                 alt="{{ __('Imagen de facturación de camping') }}"
-                class="aspect-video w-full object-cover object-center"
+                class="aspect-[16/4] w-full object-cover object-center"
             >
         </div>
 

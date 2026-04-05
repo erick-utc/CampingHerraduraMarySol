@@ -76,7 +76,7 @@
                         <img
                             src="{{ asset('images/Herradura.jpg') }}"
                             alt="{{ __('Vista de Herradura') }}"
-                            class="aspect-video w-full object-cover object-center"
+                            class="aspect-[16/4] w-full object-cover object-center"
                         >
                     </div>
 

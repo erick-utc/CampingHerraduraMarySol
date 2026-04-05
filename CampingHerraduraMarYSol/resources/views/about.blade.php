@@ -6,7 +6,7 @@
             <img
                 src="{{ asset('images/acerca1.webp') }}"
                 alt="{{ __('Imagen de acerca de') }}"
-                class="aspect-video w-full object-cover object-center"
+                class="aspect-[16/4] w-full object-cover object-center"
             >
         </div>
 

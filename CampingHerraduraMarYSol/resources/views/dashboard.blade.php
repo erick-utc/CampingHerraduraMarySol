@@ -14,7 +14,7 @@
             <img
                 src="{{ asset('images/Dashboard.webp') }}"
                 alt="{{ __('Imagen principal del dashboard') }}"
-                class="aspect-video w-full object-cover object-center"
+                class="aspect-[16/4] w-full object-cover object-center"
             >
         </div>
 

@@ -14,7 +14,7 @@
             <img
                 src="{{ asset('images/roles.png') }}"
                 alt="{{ __('Ilustración de roles') }}"
-                class="aspect-video w-full object-cover object-center"
+                class="object-cover object-center"
             >
         </div>
 
