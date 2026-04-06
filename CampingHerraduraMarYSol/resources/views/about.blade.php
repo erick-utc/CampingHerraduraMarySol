@@ -4,7 +4,7 @@
 
         <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
             <img
-                src="{{ asset('images/acerca1.webp') }}"
+                src="{{ asset('images/herradura2.webp') }}"
                 alt="{{ __('Imagen de acerca de') }}"
                 class="aspect-[16/4] w-full object-cover object-center"
             >

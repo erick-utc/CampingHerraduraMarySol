@@ -12,7 +12,7 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-6">
         <div class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
             <img
-                src="{{ asset('images/Dashboard.webp') }}"
+                src="{{ asset('images/dashboard2.webp') }}"
                 alt="{{ __('Imagen principal del dashboard') }}"
                 class="aspect-[16/4] w-full object-cover object-center"
             >

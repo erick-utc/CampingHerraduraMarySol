@@ -10,6 +10,14 @@
             @endcan
         </div>
 
+        <div class="mt-6 inline-block overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 w-full">
+            <img
+                src="{{ asset('images/usuarios.jpg') }}"
+                alt="{{ __('Ilustración de usuarios') }}"
+                class="aspect-[16/4] w-full object-cover object-center"
+            >
+        </div>
+
         <div class="mt-6 overflow-auto">
             <table class="w-full text-left divide-y divide-zinc-200 dark:divide-zinc-700">
                 <thead class="bg-zinc-50 dark:bg-zinc-800">

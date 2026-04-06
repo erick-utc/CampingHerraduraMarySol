@@ -10,7 +10,7 @@
             @endcan
         </div>
 
-        <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+        <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 w-3xs inline-block">
             <img
                 src="{{ asset('images/roles.png') }}"
                 alt="{{ __('Ilustración de roles') }}"

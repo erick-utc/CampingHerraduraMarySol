@@ -12,7 +12,7 @@
 
         <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
             <img
-                src="{{ asset('images/camping1.jpg') }}"
+                src="{{ asset('images/hospedajes.jpg') }}"
                 alt="{{ __('Imagen de hospedajes') }}"
                 class="aspect-[16/4] w-full object-cover object-center"
             >

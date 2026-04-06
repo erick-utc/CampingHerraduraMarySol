@@ -16,7 +16,7 @@
 
         <div class="mt-6 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
             <img
-                src="{{ asset('images/camping2.avif') }}"
+                src="{{ asset('images/camping3.jpg') }}"
                 alt="{{ __('Imagen de reservas en camping') }}"
                 class="aspect-[16/4] w-full object-cover object-center"
             >
